@@ -33,12 +33,9 @@ const filterAlbums = albums => {
     return albums.filter(album => album.filetype === 'directory');
 };
 
-const formatAlbums = albums => albums.map(album => (
-    {
-        src: album.file,
-        nfc: ''
-    }
-));
+const formatAlbums = albums => {
+    return albums.map(album => ({ src: album.file, nfc: '' }));
+};
 
 const getAlbumsFromDatabase = async () => {
     try {
@@ -62,6 +59,14 @@ const writeAlbumsToDatabase = async albums => {
     } catch (error) {
         console.error(error);
     }
+};
+
+const searchForAlbum = (name, albums) => {
+    return albums.find(album => album.src === name);
+};
+
+const searchForTag = (id, albums) => {
+    return albums.find(album => album.id === id);
 };
 
 main().catch(e => {
