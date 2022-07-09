@@ -14,6 +14,8 @@ const main = async () => {
     const conn = await kodi(CONFIG.KODI_IP, CONFIG.KODI_PORT);
     const picSource = await getPictureSource(conn);
     console.log(picSource);
+    const albumList = await getDirectoriesInSource(conn, picSource);
+    console.log(albumList);
 };
 
 const getPictureSource = async conn => {
@@ -25,6 +27,11 @@ const getPictureSource = async conn => {
     return source.file;
 };
 
+const getDirectoriesInSource = async (conn, picSource) => {
+    const response = await conn.Files.GetDirectory(picSource);
+    const directories = response.files;
+    return directories;
+};
 
 main().catch(e => {
     if (e.stack) return console.error(e.stack);
