@@ -4,7 +4,7 @@
   "description": "Scan your NFC tags and have it display a slideshow on kodi.",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon backend/index.js"
+    "server": "nodemon backend/index.js"
   },
   "repository": {
     "type": "git",
@@ -15,12 +15,27 @@
     "nfc",
     "memory",
     "memories",
-    "node"
+    "node",
+    "slide show",
+    "slideshow"
   ],
   "author": "Jeremy Pena",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jerpena/nfc_memories/issues"
   },
-  "homepage": "https://github.com/jerpena/nfc_memories#readme"
+  "homepage": "https://github.com/jerpena/nfc_memories#readme",
+  "dependencies": {
+    "cron": "^2.0.0",
+    "jsonfile": "^6.1.0",
+    "kodi-ws": "git+https://github.com/jerpena/kodi-ws.git",
+    "pn532": "git+https://github.com/jerpena/node-pn532.git",
+    "serialport": "^10.4.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.2",
+    "jest": "^28.1.2",
+    "nodemon": "^2.0.19",
+    "eslint": "^8.19.0"
+  }
 }
