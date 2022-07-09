@@ -12,7 +12,17 @@ const CONFIG = {
 const main = async () => {
     // Connect to KODI instance
     const conn = await kodi(CONFIG.KODI_IP, CONFIG.KODI_PORT);
+    const picSource = await getPictureSource(conn);
+    console.log(picSource);
+};
 
+const getPictureSource = async conn => {
+    const album = await conn.Files.GetSources("pictures");
+    // Get source that contains the label defined in config
+    const source = album.sources.find(src =>
+        src.label.includes(CONFIG.PICTURES_SRC_LABEL)
+    );
+    return source.file;
 };
 
 
