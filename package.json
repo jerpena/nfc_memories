@@ -30,13 +30,14 @@
     "cron": "^2.0.0",
     "jsonfile": "^6.1.0",
     "kodi-ws": "git+https://github.com/jerpena/kodi-ws.git",
+    "lowdb": "^3.0.0",
     "pn532": "git+https://github.com/jerpena/node-pn532.git",
     "serialport": "^10.4.0"
   },
   "devDependencies": {
     "concurrently": "^7.2.2",
+    "eslint": "^8.19.0",
     "jest": "^28.1.2",
-    "nodemon": "^2.0.19",
-    "eslint": "^8.19.0"
+    "nodemon": "^2.0.19"
   }
 }

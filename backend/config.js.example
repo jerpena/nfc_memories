@@ -1,0 +1,8 @@
+const CONFIG = {
+    KODI_IP: 'localhost',
+    KODI_PORT: 9090,
+    PICTURES_SRC_LABEL: 'Pictures',
+    DATABASE: 'db.json',
+};
+
+export default CONFIG;
