@@ -1,32 +1,45 @@
 import CONFIG from './config.js';
 import { Low, JSONFile } from 'lowdb';
-import kodi from "kodi-ws";
-import { PN532 } from "pn532";
-import { SerialPort } from "serialport";
+import kodi from 'kodi-ws';
+import { PN532 } from 'pn532';
+import { SerialPort } from 'serialport';
 import { fileURLToPath } from 'node:url';
 
 const main = async () => {
-    // Connect to KODI instance
-    const conn = await kodi(CONFIG.KODI_IP, CONFIG.KODI_PORT);
-    const picSource = await getPictureSource(conn);
-    // console.log(picSource);
-    const albumList = await getDirectoriesInSource(conn, picSource);
-    // console.log(albumList);
+    try {
+        // Connect to KODI instance
+        const conn = await kodi(CONFIG.KODI_IP, CONFIG.KODI_PORT);
+        const picSource = await getPictureSourceFromKodi(conn);
+        console.log(picSource);
+        const albumList = await getPictureSourceChildren(conn, picSource);
+        console.log(albumList);
+        waitForTag();
+    } catch (error) {
+        console.error(error);
+    }
 };
 
-const getPictureSource = async conn => {
-    const album = await conn.Files.GetSources("pictures");
-    // Get source that contains the label defined in config
-    const source = album.sources.find(src =>
-        src.label.includes(CONFIG.PICTURES_SRC_LABEL)
-    );
-    return source.file;
+const getPictureSourceFromKodi = async conn => {
+    try {
+        const album = await conn.Files.GetSources('pictures');
+        // Get source that contains the label defined in config
+        const source = album.sources.find(src =>
+            src.label.includes(CONFIG.PICTURES_SRC_LABEL)
+        );
+        return source.file;
+    } catch (error) {
+        console.error(error);
+    }
 };
 
-const getDirectoriesInSource = async (conn, picSource) => {
-    const response = await conn.Files.GetDirectory(picSource);
-    const directories = response.files;
-    return directories;
+const getPictureSourceChildren = async (conn, picSource) => {
+    try {
+        const response = await conn.Files.GetDirectory(picSource);
+        const directories = response.files;
+        return directories;
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 const filterAlbums = albums => {
@@ -34,7 +47,7 @@ const filterAlbums = albums => {
 };
 
 const formatAlbums = albums => {
-    return albums.map(album => ({ src: album.file, nfc: '' }));
+    return albums.map(album => ({ src: album.file, id: '' }));
 };
 
 const getAlbumsFromDatabase = async () => {
@@ -70,7 +83,10 @@ const searchForTag = (id, albums) => {
 };
 
 const waitForTag = () => {
-    const serialPort = new SerialPort("/dev/ttyS0", { baudRate: 115200 });
+    const serialPort = new SerialPort({
+        path: CONFIG.NFC_PATH,
+        baudRate: CONFIG.NFC_BAUD
+    });
     const nfc = new PN532(serialPort);
 
     nfc.on('ready', () => {
