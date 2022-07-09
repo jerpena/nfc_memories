@@ -1,1 +1,3 @@
 node_modules
+backend/db.json
+backend/config.js
