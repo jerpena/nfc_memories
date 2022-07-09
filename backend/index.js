@@ -69,6 +69,18 @@ const searchForTag = (id, albums) => {
     return albums.find(album => album.id === id);
 };
 
+const waitForTag = () => {
+    const serialPort = new SerialPort("/dev/ttyS0", { baudRate: 115200 });
+    const nfc = new PN532(serialPort);
+
+    nfc.on('ready', () => {
+        console.log('Waiting for tag.');
+        nfc.on('tag', tag => {
+            console.log(tag.uid);
+        });
+    });
+};
+
 main().catch(e => {
     if (e.stack) return console.error(e.stack);
     console.error(e);
