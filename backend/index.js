@@ -29,6 +29,17 @@ const getDirectoriesInSource = async (conn, picSource) => {
     return directories;
 };
 
+const filterAlbums = albums => {
+    return albums.filter(album => album.filetype === 'directory');
+};
+
+const formatAlbums = albums => albums.map(album => (
+    {
+        src: album.file,
+        nfc: ''
+    }
+));
+
 const getAlbumsFromDatabase = async () => {
     try {
         const dbPath = fileURLToPath(new URL(CONFIG.DATABASE, import.meta.url));
