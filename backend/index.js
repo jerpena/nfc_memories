@@ -1,21 +1,17 @@
-import jsonfile from "jsonfile";
+import CONFIG from './config.js';
+import { Low, JSONFile } from 'lowdb';
 import kodi from "kodi-ws";
 import { PN532 } from "pn532";
 import { SerialPort } from "serialport";
-
-const CONFIG = {
-    KODI_IP: '192.168.1.66',
-    KODI_PORT: 9090,
-    PICTURES_SRC_LABEL: 'Pictures',
-};
+import { fileURLToPath } from 'node:url';
 
 const main = async () => {
     // Connect to KODI instance
     const conn = await kodi(CONFIG.KODI_IP, CONFIG.KODI_PORT);
     const picSource = await getPictureSource(conn);
-    console.log(picSource);
+    // console.log(picSource);
     const albumList = await getDirectoriesInSource(conn, picSource);
-    console.log(albumList);
+    // console.log(albumList);
 };
 
 const getPictureSource = async conn => {
@@ -31,6 +27,30 @@ const getDirectoriesInSource = async (conn, picSource) => {
     const response = await conn.Files.GetDirectory(picSource);
     const directories = response.files;
     return directories;
+};
+
+const getAlbumsFromDatabase = async () => {
+    try {
+        const dbPath = fileURLToPath(new URL(CONFIG.DATABASE, import.meta.url));
+        const adapter = new JSONFile(dbPath);
+        const db = new Low(adapter);
+        await db.read();
+        return db.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const writeAlbumsToDatabase = async albums => {
+    try {
+        const dbPath = fileURLToPath(new URL(CONFIG.DATABASE, import.meta.url));
+        const adapter = new JSONFile(dbPath);
+        const db = new Low(adapter);
+        db.data = albums;
+        await db.write();
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 main().catch(e => {
