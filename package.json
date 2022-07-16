@@ -5,7 +5,7 @@
   "description": "Scan your NFC tags and have it display a slideshow on kodi.",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon backend/index.js"
+    "server": "nodemon backend/server.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,8 @@
   "homepage": "https://github.com/jerpena/nfc_memories#readme",
   "dependencies": {
     "cron": "^2.0.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
     "jsonfile": "^6.1.0",
     "kodi-ws": "git+https://github.com/jerpena/kodi-ws.git",
     "lowdb": "^3.0.0",

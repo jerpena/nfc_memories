@@ -1,19 +1,19 @@
-import CONFIG from './config.js';
+import CONFIG from './config/backend.js';
 import { Low, JSONFile } from 'lowdb';
 import kodi from 'kodi-ws';
 import { PN532 } from 'pn532';
 import { SerialPort } from 'serialport';
-import { fileURLToPath } from 'node:url';
+
 
 const main = async () => {
     try {
         // Connect to KODI instance
         const conn = await kodi(CONFIG.KODI_IP, CONFIG.KODI_PORT);
         const picSource = await getPictureSourceFromKodi(conn);
-        console.log(picSource);
+        // console.log(picSource);
         const albumList = await getPictureSourceChildren(conn, picSource);
-        console.log(albumList);
-        waitForTag();
+        // console.log(albumList);
+
     } catch (error) {
         console.error(error);
     }
@@ -52,8 +52,7 @@ const formatAlbums = albums => {
 
 const getAlbumsFromDatabase = async () => {
     try {
-        const dbPath = fileURLToPath(new URL(CONFIG.DATABASE, import.meta.url));
-        const adapter = new JSONFile(dbPath);
+        const adapter = new JSONFile(CONFIG.DB_PATH);
         const db = new Low(adapter);
         await db.read();
         return db.data;
@@ -64,8 +63,7 @@ const getAlbumsFromDatabase = async () => {
 
 const writeAlbumsToDatabase = async albums => {
     try {
-        const dbPath = fileURLToPath(new URL(CONFIG.DATABASE, import.meta.url));
-        const adapter = new JSONFile(dbPath);
+        const adapter = new JSONFile(CONFIG.DB_PATH);
         const db = new Low(adapter);
         db.data = albums;
         await db.write();

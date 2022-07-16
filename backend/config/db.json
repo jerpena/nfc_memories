@@ -1,0 +1,33 @@
+{
+  "config": {
+    "KODI_IP": "localhost",
+    "KODI_PORT": 9090,
+    "PICTURES_SRC_LABEL": "Pictures",
+    "DB": "db.json",
+    "NFC_PATH": "/dev/ttyAMA0",
+    "NFC_BAUD": 115200,
+    "DB_PATH": "/config/workspace/projects/nfcmemories/backend/config/db.json"
+  },
+  "albums": {
+    "camera_roll": {
+      "id": "",
+      "src": "C:\\Users\\Jeremy\\Pictures\\Camera Roll\\",
+      "label": "Camera Roll"
+    },
+    "icloud_photos": {
+      "id": "123",
+      "src": "C:\\Users\\Jeremy\\Pictures\\iCloud Photos\\",
+      "label": "iCloud Photos"
+    },
+    "saved_pictures": {
+      "id": "555",
+      "src": "C:\\Users\\Jeremy\\Pictures\\Saved Pictures\\",
+      "label": "Saved Pictures"
+    },
+    "zoom_screenshots": {
+      "id": "777",
+      "src": "C:\\Users\\Jeremy\\Pictures\\Zoom Screenshots\\",
+      "label": "Zoom Screenshots"
+    }
+  }
+}
