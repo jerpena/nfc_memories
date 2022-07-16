@@ -34,6 +34,7 @@
     "kodi-ws": "git+https://github.com/jerpena/kodi-ws.git",
     "lowdb": "^3.0.0",
     "pn532": "git+https://github.com/jerpena/node-pn532.git",
+    "react-icons": "^4.4.0",
     "serialport": "^10.4.0"
   },
   "devDependencies": {
